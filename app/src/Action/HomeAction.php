@@ -1,6 +1,8 @@
 <?php
 namespace App\Action;
 
+use Slim\Http\Request;
+use Slim\Http\Response;
 use Slim\Views\Twig;
 use Psr\Log\LoggerInterface;
 
@@ -15,10 +17,11 @@ final class HomeAction
         $this->logger = $logger;
     }
 
-    public function dispatch($request, $response, $args)
+
+    public function dispatch(Request $request,Response $response, $args)
     {
         $this->logger->info("Home page action dispatched");
-        
+
         $this->view->render($response, 'home.twig');
         return $response;
     }

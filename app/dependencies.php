@@ -37,9 +37,13 @@ $container['logger'] = function ($c) {
 };
 
 // -----------------------------------------------------------------------------
+// Language Actions
+// -----------------------------------------------------------------------------
+include('src\lang\en.php');
+$container['language']= $lang;
+// -----------------------------------------------------------------------------
 // Action factories
 // -----------------------------------------------------------------------------
 
-$container['App\Action\HomeAction'] = function ($c) {
-    return new App\Action\HomeAction($c['view'], $c['logger']);
-};
+$container['App\Action\HomeAction'] = function ($c) {return new App\Action\HomeAction($c['view'], $c['logger'],$c['language']);};
+$container['App\Action\ProjectAction'] = function ($c) {return new App\Action\ProjectAction($c['view'], $c['logger'],$c['language']);};
