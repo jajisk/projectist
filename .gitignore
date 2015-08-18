@@ -3,3 +3,4 @@ vendor/
 log/*
 cache/*
 composer.lock
+composer.lock
