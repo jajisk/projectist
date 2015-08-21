@@ -2,27 +2,73 @@
 
 namespace App\Models;
 
+use Slim\Exception\Exception;
+use Slim\PDO\Database;
+
 class Project
 {
-    public $ID;
-    public $Code;
-    public $Name;
-    public $Description;
-    public $Owner;
-    public $Portfolio;
-    public $RAG_Status;
+    private $ID;
+    private $Code;
+    private $Name;
+    private $Description;
+    private $Owner;
+    private $Portfolio;
+    private $RAG_Status;
+
+    private $database;
 
 
     /**
      *
      */
-    public function __construct($code,$name,$owner,$portfolio,$rag_status)
+    public function __construct(Database $db)
+    {
+        $this->database = $db;
+    }
+
+    public function CreateNew($code,$name,$owner,$portfolio,$rag_status)
     {
         $this->setCode($code);
         $this->setName($name);
         $this->setOwner($owner);
         $this->setPortfolio($portfolio);
         $this->setRAGStatus($rag_status);
+    }
+
+    public function Save()
+    {
+        try
+        {
+            $sql = 'INSERT INTO projects (code,name,owner,portfolio,rag_status) VALUES (:code,:name,:owner,:portfolio,:rag_status)';
+            $stmt = $this->database->prepare($sql);
+            $stmt->bindParam(':code', $this->getCode());
+            $stmt->bindParam(':name', $this->getName());
+            $stmt->bindParam(':owner', $this->getOwner());
+            $stmt->bindParam(':portfolio',$this->getPortfolio());
+            $stmt->bindParam(':rag_status',$this->getRAGStatus());
+            $stmt->execute();
+
+        }
+        catch(Exception $e)
+        {
+            throw $e;
+        }
+
+    }
+
+    public function LoadFromID($id)
+    {
+        $selectStatement = $this->database->select()->from('projects')->where('id','=',$id);
+        $stmt = $selectStatement->execute();
+        $data = $stmt->fetch();
+
+        $this->setID($data['id']);
+        $this->setCode($data['code']);
+        $this->setName($data['name']);
+        $this->setOwner($data['owner']);
+        $this->setPortfolio($data['portfolio']);
+        $this->setRAGStatus($data['rag_status']);
+
     }
 
     /**
@@ -75,7 +121,7 @@ class Project
      */
     public function setName($Name)
     {
-        $this->Name = $Name;
+        $this->Name = (string)$Name;
         return $this;
     }
 

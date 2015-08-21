@@ -36,6 +36,15 @@ $container['logger'] = function ($c) {
     return $logger;
 };
 
+// database
+$container['database'] = function ($c)
+{
+    $settings = $c['settings']['database'];
+    $database  = new \Slim\PDO\Database($settings['db_dsn'],$settings['db_user'],$settings['db_password']);
+    return $database;
+};
+
+
 // -----------------------------------------------------------------------------
 // Language Actions
 // -----------------------------------------------------------------------------
@@ -45,5 +54,5 @@ $container['language']= $lang;
 // Action factories
 // -----------------------------------------------------------------------------
 
-$container['App\Action\HomeAction'] = function ($c) {return new App\Action\HomeAction($c['view'], $c['logger'],$c['language']);};
-$container['App\Action\ProjectAction'] = function ($c) {return new App\Action\ProjectAction($c['view'], $c['logger'],$c['language']);};
+$container['App\Action\HomeAction'] = function ($c) {return new App\Action\HomeAction($c['view'], $c['logger'],$c['language'],$c['database']);};
+$container['App\Action\ProjectAction'] = function ($c) {return new App\Action\ProjectAction($c['view'], $c['logger'],$c['language'],$c['database']);};

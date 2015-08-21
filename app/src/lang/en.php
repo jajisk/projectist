@@ -3,6 +3,8 @@
 $lang = array
 (
   "project"             => "Project",
+  "projects"            => "Projects",
+  "projects_list"       => "Projects List",
   "open_projects"       => "Open Projects",
   "project_code"        => "Code",
   "project_name"        => "Name",
