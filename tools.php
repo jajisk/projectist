@@ -6,13 +6,25 @@ echo "--------------------------------------------------------------------------
 echo "|                      Projectist CLI Tools                                |\n";
 echo "----------------------------------------------------------------------------\n";
 
-if($argv[1]=="PasswordHash")
+if($argv[1]=="GeneratePasswordHash")
 {
     GivePasswordHash($argv[2]);
 }
 elseif($argv[1]=="GenerateUser")
 {
     GenerateUser($argv[2],$argv[3]);
+}
+elseif($argv[1]=="Help")
+{
+    Help();
+}
+
+function Help()
+{
+    echo "Commands Available...\n";
+    echo "----------------------\n";
+    echo "GenerateUser [username] [password]\n";
+    echo "GeneratePasswordHash [password]\n";
 }
 
 function GenerateUser($username, $password)
@@ -24,7 +36,7 @@ function GenerateUser($username, $password)
     echo "User: $username created with password: $password";
 }
 
-function GivePasswordHash($raw_pass)
+function GeneratePasswordHash($raw_pass)
 {
     global $argv;
     echo "Your password hash for ". $raw_pass ." is ". password_hash($raw_pass,PASSWORD_DEFAULT);
